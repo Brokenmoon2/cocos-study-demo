@@ -6,6 +6,7 @@ import DataManager from 'db://assets/Runtime/DataManager'
 import { TILE_HEIGHT, TILE_WIDTH } from 'db://assets/Scripts/Tile/TileManager'
 import EventManager from 'db://assets/Runtime/EventManager'
 import { EVENT_ENUM } from 'db://assets/Enums'
+import { PlayerManager } from 'db://assets/Scripts/Player/PlayerManager'
 const { ccclass, property } = _decorator
 
 @ccclass('BattleManager')
@@ -37,6 +38,7 @@ export class BattleManager extends Component {
       DataManager.Instance.mapColumnCount = this.level.mapInfo[0].length || 0
 
       this.generateTileMap()
+      this.generatePlayer()
     }
   }
 
@@ -62,6 +64,13 @@ export class BattleManager extends Component {
   clearLevel() {
     this.stage.destroyAllChildren()
     DataManager.Instance.reset()
+  }
+
+  generatePlayer() {
+    const player = createUINode()
+    player.setParent(this.stage)
+    const playerManager = player.addComponent(PlayerManager)
+    playerManager.init()
   }
 
   adaptPos() {
